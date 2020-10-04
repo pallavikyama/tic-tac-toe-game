@@ -7,7 +7,9 @@ public class TicTacToeGame {
 	static char playerLetter;
 	static char computerLetter;
 	static int playerMoveChoice;
+	static int computerMoveChoice;
 	static int toss;
+	static int filledCellsCount;
 
 	public static final int PLAYER_FIRST = 0;
 	public static final int COMPUTER_FIRST = 1;
@@ -19,6 +21,7 @@ public class TicTacToeGame {
 		for (int i = 1; i < board.length; i++) {
 			board[i] = ' ';
 		}
+		filledCellsCount = 0;
 		System.out.println("An empty board is created.");
 		showBoard();
 	}
@@ -74,7 +77,27 @@ public class TicTacToeGame {
 	private void setUserMove() {
 		board[playerMoveChoice] = playerLetter;
 		System.out.println("User move is set.");
+		++filledCellsCount;
 		showBoard();
+		gameStatus(playerLetter);
+	}
+
+	// SET COMPUTER MOVE USING RANDOM
+	private void setComputerMove() {
+		boolean x = false;
+		while (x == false) {
+			computerMoveChoice = (int) Math.ceil(Math.random() * 10) % 9;
+			if (board[computerMoveChoice] != ' ' || computerMoveChoice <= 0 || computerMoveChoice > board.length)
+				x = false;
+			else {
+				x = true;
+				board[computerMoveChoice] = computerLetter;
+				System.out.println("Computer has set its move.");
+				++filledCellsCount;
+			}
+		}
+		showBoard();
+		gameStatus(computerLetter);
 	}
 
 	// CHOOSE FIRST PLAYER USING RANDOM
@@ -84,12 +107,41 @@ public class TicTacToeGame {
 		if (toss == PLAYER_FIRST) {
 			System.out.println("Player has to play first.");
 			getUserMove();
-		} else
+		} else {
 			System.out.println("Computer has to play first.");
+			setComputerMove();
+		}
+	}
+
+	// GAME STATUS- WINNER|TIE|NEXT TURN
+	private void gameStatus(char checkWinner) {
+		if ((board[1] == board[2] && board[2] == board[3] && board[3] == checkWinner)
+				|| (board[1] == board[4] && board[4] == board[7] && board[7] == checkWinner)
+				|| (board[1] == board[5] && board[5] == board[9] && board[9] == checkWinner)
+				|| (board[2] == board[5] && board[5] == board[8] && board[8] == checkWinner)
+				|| (board[3] == board[6] && board[6] == board[9] && board[9] == checkWinner)
+				|| (board[3] == board[5] && board[5] == board[7] && board[7] == checkWinner)
+				|| (board[4] == board[5] && board[5] == board[6] && board[6] == checkWinner)
+				|| (board[7] == board[8] && board[8] == board[9] && board[9] == checkWinner)) {
+			if (checkWinner == playerLetter)
+				System.out.println("USER won the TIC-TAC-TOE Game!");
+			else
+				System.out.println("COMPUTER won the TIC-TAC-TOE Game!");
+		} else if (filledCellsCount == 9)
+			System.out.println("It's a TIE match.");
+		else {
+			System.out.println("Game continues.");
+			if ((filledCellsCount % 2 == 0 && toss == PLAYER_FIRST)
+					|| (filledCellsCount % 2 != 0 && toss == COMPUTER_FIRST))
+				getUserMove();
+			else if ((filledCellsCount % 2 == 0 && toss == COMPUTER_FIRST)
+					|| (filledCellsCount % 2 != 0 && toss == PLAYER_FIRST))
+				setComputerMove();
+		}
 	}
 
 	public static void main(String[] args) {
-		System.out.println("Welcome to TIC TAC TOE Game.");
+		System.out.println("Welcome to TIC-TAC-TOE Game.");
 		TicTacToeGame boardObj = new TicTacToeGame();
 		boardObj.createBoard();
 		boardObj.gameInputs();
