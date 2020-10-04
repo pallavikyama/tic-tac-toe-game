@@ -63,6 +63,14 @@ public class TicTacToeGame {
 				x = false;
 			}
 		}
+		setUserMove();
+	}
+
+	// SET USER MOVE AND DISPLAY
+	private void setUserMove() {
+		board[playerMoveChoice] = playerLetter;
+		System.out.println("User move is set.");
+		showBoard();
 	}
 
 	public static void main(String[] args) {
