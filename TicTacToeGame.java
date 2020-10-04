@@ -7,6 +7,10 @@ public class TicTacToeGame {
 	static char playerLetter;
 	static char computerLetter;
 	static int playerMoveChoice;
+	static int toss;
+
+	public static final int PLAYER_FIRST = 0;
+	public static final int COMPUTER_FIRST = 1;
 
 	static Scanner input = new Scanner(System.in);
 
@@ -73,12 +77,23 @@ public class TicTacToeGame {
 		showBoard();
 	}
 
+	// CHOOSE FIRST PLAYER USING RANDOM
+	private void chooseFirstPlayer() {
+		System.out.println("Now a toss is done to get the first player among user and computer.\n------TOSS-------");
+		toss = (int) Math.floor(Math.random() * 10) % 2;
+		if (toss == PLAYER_FIRST) {
+			System.out.println("Player has to play first.");
+			getUserMove();
+		} else
+			System.out.println("Computer has to play first.");
+	}
+
 	public static void main(String[] args) {
 		System.out.println("Welcome to TIC TAC TOE Game.");
 		TicTacToeGame boardObj = new TicTacToeGame();
 		boardObj.createBoard();
 		boardObj.gameInputs();
-		boardObj.getUserMove();
+		boardObj.chooseFirstPlayer();
 		input.close();
 	}
 }
