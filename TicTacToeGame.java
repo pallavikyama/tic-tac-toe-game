@@ -6,6 +6,7 @@ public class TicTacToeGame {
 	static char[] board = new char[10];
 	static char playerLetter;
 	static char computerLetter;
+	static int playerMoveChoice;
 
 	static Scanner input = new Scanner(System.in);
 
@@ -15,6 +16,7 @@ public class TicTacToeGame {
 			board[i] = ' ';
 		}
 		System.out.println("An empty board is created.");
+		showBoard();
 	}
 
 	// CHOOSING INPUT
@@ -36,11 +38,30 @@ public class TicTacToeGame {
 
 	// DISPLAY CURRENT BOARD
 	private void showBoard() {
-		System.out.println("-------------");
+		System.out.println("Displaying board:\n-------------");
 		for (int i = 1; i < board.length; i++) {
 			System.out.print("| " + board[i] + " ");
 			if (i % 3 == 0)
 				System.out.println("|\n-------------");
+		}
+	}
+
+	// CHECK IF USER MOVE INDEX IS VALID
+	private void getUserMove() {
+		boolean x = false;
+		while (x == false) {
+			System.out.println("Enter a valid cell index (choose a number from 1 to 9) to make a move.");
+			playerMoveChoice = input.nextInt();
+			if (playerMoveChoice <= 0 || playerMoveChoice >= board.length) {
+				System.out.println("Try again. You gave an invalid cell index.");
+				x = false;
+			} else if (board[playerMoveChoice] == ' ') {
+				System.out.println("This index is free for move.");
+				x = true;
+			} else {
+				System.out.println("Try again. You choosed a filled cell.");
+				x = false;
+			}
 		}
 	}
 
@@ -49,8 +70,7 @@ public class TicTacToeGame {
 		TicTacToeGame boardObj = new TicTacToeGame();
 		boardObj.createBoard();
 		boardObj.gameInputs();
-		System.out.println("Displaying board to choose a valid cell to play:");
-		boardObj.showBoard();
+		boardObj.getUserMove();
 		input.close();
 	}
 }
