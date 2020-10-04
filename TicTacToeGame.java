@@ -12,7 +12,7 @@ public class TicTacToeGame {
 	// CREATE EMPTY TIC_TAC_TOE BOARD
 	private void createBoard() {
 		for (int i = 1; i < board.length; i++) {
-			board[i]=' ';
+			board[i] = ' ';
 		}
 		System.out.println("An empty board is created.");
 	}
@@ -34,11 +34,23 @@ public class TicTacToeGame {
 		System.out.println("Player has choosed a " + playerLetter + " and computer got a " + computerLetter + ".");
 	}
 
+	// DISPLAY CURRENT BOARD
+	private void showBoard() {
+		System.out.println("-------------");
+		for (int i = 1; i < board.length; i++) {
+			System.out.print("| " + board[i] + " ");
+			if (i % 3 == 0)
+				System.out.println("|\n-------------");
+		}
+	}
+
 	public static void main(String[] args) {
 		System.out.println("Welcome to TIC TAC TOE Game.");
 		TicTacToeGame boardObj = new TicTacToeGame();
 		boardObj.createBoard();
 		boardObj.gameInputs();
+		System.out.println("Displaying board to choose a valid cell to play:");
+		boardObj.showBoard();
 		input.close();
 	}
 }
